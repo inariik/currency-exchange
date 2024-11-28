@@ -11,5 +11,3 @@
 
     Клонируйте репозиторий: git clone https://github.com/inariik/currency-exchange
     Откройте приложение с помощью комманды npm start
-
-    Также приложение находится по ссылке https://inariik.github.io/currency-exchange/
