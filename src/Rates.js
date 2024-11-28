@@ -1,110 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Autosuggest from 'react-autosuggest';
-
-const currencies = [
-  { value: 'USD', label: 'USD' },
-  { value: 'EUR', label: 'EUR' },
-  { value: 'RUB', label: 'RUB' },
-  { value: 'GBP', label: 'GBP' },
-  { value: 'JPY', label: 'JPY' },
-  { value: 'CNY', label: 'CNY' },
-  { value: 'AUD', label: 'AUD' },
-  { value: 'CAD', label: 'CAD' },
-  { value: 'CHF', label: 'CHF' },
-  { value: 'SEK', label: 'SEK' },
-  { value: 'NOK', label: 'NOK' },
-  { value: 'DKK', label: 'DKK' },
-  { value: 'PLN', label: 'PLN' },
-  { value: 'CZK', label: 'CZK' },
-  { value: 'HUF', label: 'HUF' },
-  { value: 'RON', label: 'RON' },
-  { value: 'BGN', label: 'BGN' },
-  { value: 'TRY', label: 'TRY' },
-  { value: 'ZAR', label: 'ZAR' },
-  { value: 'BRL', label: 'BRL' },
-  { value: 'MXN', label: 'MXN' },
-  { value: 'ARS', label: 'ARS' },
-  { value: 'CLP', label: 'CLP' },
-  { value: 'PEN', label: 'PEN' },
-  { value: 'COP', label: 'COP' },
-  { value: 'VEF', label: 'VEF' },
-];
+import { Link } from 'react-router-dom';
 
 const Rates = () => {
-  const [baseCurrency, setBaseCurrency] = useState('USD');
   const [rates, setRates] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [suggestions, setSuggestions] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [baseCurrency, setBaseCurrency] = useState('USD');
 
   useEffect(() => {
-    const fetchRates = async () => {
-      try {
-        const response = await axios.get(`https://api.exchangerate-api.com/v4/latest/${baseCurrency}`);
-        const data = response.data.rates;
-        setRates(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchRates();
+    axios
+      .get(`https://api.exchangerate-api.com/v4/latest/${baseCurrency}`)
+      .then((response) => {
+        setRates(response.data.rates);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, [baseCurrency]);
 
-  const handleBaseCurrencyChange = (e) => {
-    const value = e.target.value;
-    const selectedCurrency = currencies.find((currency) => currency.value === value);
-    if (selectedCurrency) {
-      setBaseCurrency(selectedCurrency.value);
-    }
+  const handleCurrencyChange = (event) => {
+    setBaseCurrency(event.target.value);
   };
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-    const filteredSuggestions = currencies.filter((currency) => currency.label.toLowerCase().includes(value.toLowerCase()));
-    setSuggestions(filteredSuggestions);
-  };
-
-  const handleSuggestionSelected = (e, { suggestion }) => {
-    setBaseCurrency(suggestion.value);
-  };
-
-  if (loading) {
-    return <p>Загрузка данных...</p>;
-  }
-
-  if (error) {
-    return <p>Ошибка: {error}</p>;
-  }
-
   return (
-    <div>
-      <h2>Курсы валют</h2>
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={() => {}}
-        onSuggestionsClearRequested={() => setSuggestions([])}
-        getSuggestionValue={(suggestion) => suggestion.label}
-        renderSuggestion={(suggestion) => <div>{suggestion.label}</div>}
-        inputProps={{
-          placeholder: 'Введите валюту',
-          value: inputValue,
-          onChange: handleInputChange,
-        }}
-        onSuggestionSelected={handleSuggestionSelected}
-      />
-      <ul>
-        {Object.keys(rates).map((currency) => (
-          <li key={currency}>
-            {currency}: {rates[currency]}
-          </li>
-        ))}
-      </ul>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <div style={{ width: '80%', maxWidth: '800px', padding: '20px', border: '1px solid #ccc', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+        <h1 style={{ textAlign: 'center' }}>Курсы валют</h1>
+        <select value={baseCurrency} onChange={handleCurrencyChange} style={{ border: '1px solid #ccc', padding: '10px', width: '100%' }}>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="RUB">RUB</option>
+          <option value="GBP">GBP</option>
+          <option value="JPY">JPY</option>
+          <option value="CNY">CNY</option>
+          <option value="AUD">AUD</option>
+          <option value="CAD">CAD</option>
+          <option value="CHF">CHF</option>
+          <option value="SEK">SEK</option>
+          <option value="NOK">NOK</option>
+          <option value="DKK">DKK</option>
+          <option value="PLN">PLN</option>
+          <option value="CZK">CZK</option>
+          <option value="HUF">HUF</option>
+          <option value="RON">RON</option>
+          <option value="BGN">BGN</option>
+          <option value="TRY">TRY</option>
+          <option value="ZAR">ZAR</option>
+          <option value="BRL">BRL</option>
+          <option value="MXN">MXN</option>
+          <option value="ARS">ARS</option>
+          <option value="CLP">CLP</option>
+          <option value="PEN">PEN</option>
+          <option value="COP">COP</option>
+          <option value="VEF">VEF</option>
+        </select>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {Object.keys(rates).map((currency) => (
+            <div key={currency} style={{ width: '10%', padding: '10px', border: '1px solid #ccc', borderRadius: '10px', margin: '10px' }}>
+              <h2 style={{ textAlign: 'center' }}>{currency}</h2>
+              <p style={{ textAlign: 'center' }}>{rates[currency]}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link to="/">
+            <button style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '10px', backgroundColor: '#4CAF50', color: '#fff' }}>
+              Конвертации Валюты
+            </button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

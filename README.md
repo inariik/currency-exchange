@@ -9,7 +9,9 @@
 
 Установка:
 
-    Клонируйте репозиторий: git clone https://github.com/inariik/currency-exchange
-    Откройте приложение с помощью комманды npm start
+    Клонировать репозиторий: git clone https://github.com/inariik/currency-exchange.git
+    Перейти в папку проекта: cd currency-exchange
+    Установить зависимости: npm install
+    Запустить проект: npm start
 
-    Также приложение находится по ссылке https://inariik.github.io/currency-exchange/
+    Открыть браузер и перейти по адресу http://localhost:3000
